@@ -1,0 +1,1 @@
+if this won't start in production mode, change the package.json "start:prod": "node start.js" to "start:prod": "node server.js"
