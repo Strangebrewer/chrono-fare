@@ -1,7 +1,7 @@
-import jwt from 'jsonwebtoken';
-import passport from 'passport';
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import UserModel from './models/UserModel';
+const jwt = require('jsonwebtoken');
+const passport = require('passport');
+const { ExtractJwt, Strategy } = require('passport-jwt');
+const UserModel = require('./models/UserModel');
 const { PASSPORT_SECRET } = process.env;
 
 const sign = payload => jwt.sign(payload, PASSPORT_SECRET);
@@ -20,7 +20,7 @@ passport.use(new Strategy(options, async (payload, done) => {
   }
 }))
 
-export {
+module.exports = {
   sign,
   passport
 }

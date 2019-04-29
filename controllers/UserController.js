@@ -1,9 +1,12 @@
-import User from '../models/User';
-import UserModel from '../models/UserModel';
-import { sign } from '../passport';
+const User = require('../models/User');
+const UserModel = require('../models/UserModel');
+const { sign } = require('../passport');
 const user_model = new User(UserModel, sign);
 
-export async function getCurrentUser(req, res) {
+module.exports = userController = {};
+
+userController.getCurrentUser = async function (req, res) {
+  console.log(req.user)
   try {
     const user = await UserModel.findById(req.user._id);
     const { _id, username } = user;
@@ -14,7 +17,8 @@ export async function getCurrentUser(req, res) {
   }
 }
 
-export async function login(req, res) {
+userController.login = async function (req, res) {
+  console.log("Req.body: ", req.body)
   try {
     const user = await user_model.login(req.body);
     console.log("User: ", user)

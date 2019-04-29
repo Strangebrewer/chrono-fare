@@ -1,7 +1,6 @@
-import path from 'path';
-import express from 'express';
-const router = express.Router();
-import user_routes from './user';
+const path = require('path');
+const router = require('express').Router();
+const user_routes = require('./user');
 
 router.use('/user', user_routes);
 
@@ -10,4 +9,4 @@ router.use(function (req, res) {
     res.sendFile(path.join(__dirname, '../client/build/index.html'));
 });
 
-export default router;
+module.exports = router;

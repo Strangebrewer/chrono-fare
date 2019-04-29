@@ -19,8 +19,10 @@ const Landing = props => {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    await login({ username, password });
-    props.toggleIsAuth()
+    const user = await login({ username, password });
+    console.log("User: ", user)
+    if (user.data.token)
+      localStorage.setItem('token', user.data.token);
   }
 
   return (

@@ -1,43 +1,15 @@
-import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
+const { compareSync, genSaltSync, hashSync } = require('bcryptjs');
 class User {
   constructor(model, sign) {
     if (!model || typeof model !== 'function')
       throw new Error('A valid model must be given to use this class');
-      this.User_Model = model;
+      this.UserModel = model;
       this.sign = sign;
   }
 
   async find(query = {}, populate = []) {
     if (typeof populate == 'string') populate.split(',');
-    return await this.Schema.find(query).populate(populate);
-  }
-
-  async findWithProjects(id) {
-    const response = await this.Schema.findById(id).populate('projects');
-    const { _id, email, project_order, projects, url, username } = response;
-    return { _id, email, project_order: JSON.parse(project_order), projects, url, username }
-  }
-
-  async setProjectOrder(_id, order) {
-    try {
-      const project_order = JSON.stringify(order);
-      const user = await this.Schema.findOneAndUpdate({ _id }, { project_order });
-      console.log("User returned: ", user);
-      return ({ msg: 'success!' })
-    } catch (e) {
-      return ({ msg: 'error: ' + e.message });
-    }
-  }
-
-  async getPublicWorks(req_params) {
-    const url = req_params.username.toLowerCase();
-    const user = await this.Schema.findOne({ url })
-      .populate({
-        path: 'projects',
-        match: { "published.0": { "$exists": true } },
-        populate: { path: 'published', populate: { path: 'texts' } }
-      })
-    return user;
+    return await this.UserModel.find(query).populate(populate);
   }
 
   async validateInputs(username, email) {
@@ -73,14 +45,14 @@ class User {
   }
 
   async checkUserAvailable(username, email) {
-    const user = await this.Schema.findOne({ username })
+    const user = await this.UserModel.findOne({ username })
     if (user) {
       return {
         valid: false,
         msg: 'username taken'
       }
     }
-    const nextUser = await this.Schema.findOne({ email });
+    const nextUser = await this.UserModel.findOne({ email });
     if (nextUser) {
       return {
         valid: false,
@@ -99,14 +71,13 @@ class User {
 
     const password = this.hashPassword(req_body.password);
     req_body.password = password;
-    req_body.url = req_body.username.toLowerCase();
-    const user = await this.Schema.create(req_body);
-    const { _id, order, projects, url } = user;
+    const user = await this.UserModel.create(req_body);
+    const { _id } = user;
     const token = this.sign({
       id: _id,
       username,
     });
-    const userData = { _id, email, order, projects, url, username }
+    const userData = { _id, username }
     return { msg: "logged in", token, user: userData };
   }
 
@@ -116,28 +87,27 @@ class User {
     if (!inputs.valid) return inputs;
     const avail = await this.checkUserAvailable(username, email);
     if (!avail.valid) return avail;
-    const res = await this.Schema.findOneAndUpdate({ _id: req_user._id }, req_body);
-    const { _id, order, projects } = res;
+    const res = await this.UserModel.findOneAndUpdate({ _id: req_user._id }, req_body);
+    const { _id } = res;
     const token = this.sign({
       id: _id,
       username,
     });
-    const user = { _id, email, order, projects, username }
+    const user = { _id, username }
     return { msg: "update successful", token, user };
   }
 
   async login(req_body) {
     const { username, password } = req_body;
-    const res = await this.Schema.findOne({ username })
-      .populate('projects');
+    const res = await this.UserModel.findOne({ username })
     const passwordValid = this.checkPassword(password, res.password);
     if (passwordValid) {
-      const { _id, email, order, projects, project_order, url } = res;
+      const { _id } = res;
       const token = this.sign({
         id: _id,
         username,
       });
-      const user = { _id, email, order, projects, project_order: JSON.parse(project_order), url, username }
+      const user = { _id, username }
       return { msg: "logged in", token, user };
     }
   }
@@ -148,13 +118,13 @@ class User {
     const passwordValid = this.checkPassword(currentPassword, password);
     if (passwordValid) {
       const pw = hashPassword(newPassword);
-      const res = await this.Schema.findOneAndUpdate({ _id }, { password: pw });
-      const { email, order, projects, username } = res;
+      const res = await this.UserModel.findOneAndUpdate({ _id }, { password: pw });
+      const { username } = res;
       const token = this.sign({
         id: _id,
         username,
       });
-      const user = { _id, email, order, projects, username }
+      const user = { _id, username }
       return { msg: "password changed", token, user };
     }
   }
@@ -169,4 +139,4 @@ class User {
 
 }
 
-export default User;
+module.exports = User;
