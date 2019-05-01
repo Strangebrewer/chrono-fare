@@ -1,4 +1,8 @@
-import * as API from '../../utils';
+import * as API from '../../utils/API';
+
+export const AUTHENTICATED = 'authenticated_user';
+export const UNAUTHENTICATED = 'unauthenticated_user';
+export const AUTHENTICATION_ERROR = 'authentication_error';
 
 export function getCurrentUser(headers) {
   return (dispatch) => {
@@ -39,22 +43,19 @@ export function setCurrentUser(user) {
   }
 }
 
-export function login(credentials) {
-  return dispatch => {
-    API.login(credentials)
-      .then(user => {
-        localStorage.setItem('token', user.data.token);
-        dispatch({
-          type: 'TOGGLE_LOGGED_IN'
-        });
-        dispatch({
-          type: 'LOGIN_USER',
-          payload: user.data.user
-        });
+export function login(credentials, history) {
+  return async dispatch => {
+    try {
+      const res = await API.login(credentials);
+      dispatch({ type: AUTHENTICATED });
+      localStorage.setItem('token', res.data.token);
+      history.push('/foods');
+    } catch (e) {
+      dispatch({
+        type: AUTHENTICATION_ERROR,
+        payload: 'invalid email or password'
       })
-      .catch(error => {
-        console.log('Error in login: ', error.message);
-      })
+    }
   }
 }
 
@@ -86,4 +87,30 @@ function objectifyProjects(projects) {
     projectObject[element._id].subject_order = order;
   }
   return projectObject;
+}
+
+
+// added for scalac tutorial
+export function signInAction({ username, password }, history) {
+  return async dispatch => {
+    try {
+      const res = await API.login({ username, password });
+      dispatch({ type: AUTHENTICATED });
+      localStorage.setItem('token', res.data.token);
+      history.push('/foods');
+    } catch (e) {
+      dispatch({
+        type: AUTHENTICATION_ERROR,
+        payload: 'invalid email or password'
+      })
+    }
+  }
+}
+
+// added for scalac tutorial
+export function signOutAction() {
+  localStorage.removeItem('token');
+  return {
+    type: UNAUTHENTICATED
+  }
 }

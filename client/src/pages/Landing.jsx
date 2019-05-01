@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import styled from "styled-components";
+import { signInAction } from '../redux/actions';
 import { login } from '../utils/API';
 
 const Landing = props => {
@@ -19,10 +20,7 @@ const Landing = props => {
 
   const handleFormSubmit = async event => {
     event.preventDefault();
-    const user = await login({ username, password });
-    console.log("User: ", user)
-    if (user.data.token)
-      localStorage.setItem('token', user.data.token);
+    const user = await signInAction({ username, password }, props.history);
   }
 
   return (
@@ -46,7 +44,7 @@ const Landing = props => {
   )
 }
 
-function eatShitAndDie(state) {
+function mapStateToProps(state) {
   return {
     // user: state.user,
     // loggedIn: state.loggedIn,
@@ -54,7 +52,7 @@ function eatShitAndDie(state) {
   }
 }
 
-function fallThroughTheCracks(dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     // login: credentials => {
     //   dispatch(login(credentials));
@@ -65,7 +63,7 @@ function fallThroughTheCracks(dispatch) {
   }
 }
 
-export default connect(eatShitAndDie, fallThroughTheCracks)(Landing);
+export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 
 const Container = styled.div`
   width: 300px;

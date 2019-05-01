@@ -7,3 +7,7 @@ export function getCurrentUser(headers) {
 export function login(credentials) {
   return axios.post('/user/login', credentials);
 }
+
+export function signup(data) {
+  
+}
