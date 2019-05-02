@@ -1,27 +1,19 @@
-import React, { Component } from 'react';
-import { connect } from 'redux';
-import { signOutAction } from '../redux/actions/user_actions';
+import React from 'react';
+import { connect } from 'react-redux';
+import { signoutAction } from '../redux/actions/user_actions';
 
-class SignOut extends Component {
-
-  signOut = () => {
-    this.props.signOut();
-  }
-
-  render() {
-    return (
-      <button onClick={this.signOut}>Sign Out</button>
-    );
-  }
+const SignOut = props => {
+  return (
+    <button style={props.style} onClick={props.signOut}>Sign Out</button>
+  );
 }
 
 function mapDispatchToProps(dispatch) {
   return {
     signOut: () => {
-      dispatch(signOutAction());
+      dispatch(signoutAction());
     }
   }
-
 }
 
-export default connect(mapDispatchToProps)(SignOut);
+export default connect(null, mapDispatchToProps)(SignOut);

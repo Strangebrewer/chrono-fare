@@ -3,8 +3,8 @@ class User {
   constructor(model, sign) {
     if (!model || typeof model !== 'function')
       throw new Error('A valid model must be given to use this class');
-      this.UserModel = model;
-      this.sign = sign;
+    this.UserModel = model;
+    this.sign = sign;
   }
 
   async find(query = {}, populate = []) {
@@ -98,18 +98,23 @@ class User {
   }
 
   async login(req_body) {
-    const { username, password } = req_body;
-    const res = await this.UserModel.findOne({ username })
-    const passwordValid = this.checkPassword(password, res.password);
-    if (passwordValid) {
-      const { _id } = res;
-      const token = this.sign({
-        id: _id,
-        username,
-      });
-      const user = { _id, username }
-      return { msg: "logged in", token, user };
+    try {
+      const { username, password } = req_body;
+      const res = await this.UserModel.findOne({ username })
+      const passwordValid = this.checkPassword(password, res.password);
+      if (passwordValid) {
+        const { _id } = res;
+        const token = this.sign({
+          id: _id,
+          username,
+        });
+        const user = { _id, username }
+        return { msg: "logged in", token, user };
+      }
+    } catch (e) {
+      return { error: e.message }
     }
+
   }
 
   async updatePassword(req_body, req_user) {

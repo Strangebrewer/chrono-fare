@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import SignOut from '../components/SignOut';
+import Navbar from '../components/Navbar';
 
 const Foods = props => {
+  console.log("Foods props: ", props);
   return (
-    <div>
-      <h1 style={{ color: 'white' }}>You can't see me!</h1>
-    </div>
+    <>
+      <Navbar />
+      <h1>You can't see me!</h1>
+    </>
   );
 }
 
 function mapStateToProps(state) {
   return {
-
+    user: state.user
   };
 }
 

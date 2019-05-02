@@ -8,10 +8,16 @@ module.exports = userController = {};
 userController.getCurrentUser = async function (req, res) {
   console.log(req.user)
   try {
-    const user = await UserModel.findById(req.user._id);
-    const { _id, username } = user;
-    const user_data = { _id, username };
-    res.json(user_data);
+    // for only authenticating, just do this:
+    const { _id, username } = req.user;
+    const user = { _id, username };
+    res.json(user);
+
+    // if you need to populate more data or otherwise get more info than the passport request, use and modify this:
+    // const user = await UserModel.findById(req.user._id);
+    // const { _id, username } = user;
+    // const user_data = { _id, username };
+    // res.json(user_data);
   } catch (e) {
     res.json({ msg: e.message });
   }

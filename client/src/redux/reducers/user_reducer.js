@@ -1,8 +1,8 @@
-import { AUTHENTICATED, UNAUTHENTICATED, AUTHENTICATION_ERROR } from '../actions';
+import * as User from '../action_types/user_types';
 
 export function userReducer(state = [], action) {
   switch (action.type) {
-    case 'SET_CURRENT_USER':
+    case User.SET_CURRENT_USER:
       return {
         ...state,
         ...action.payload
@@ -28,11 +28,11 @@ export function userReducer(state = [], action) {
 
 export function authReducer(state = {}, action) {
   switch (action.type) {
-    case AUTHENTICATED:
+    case User.AUTHENTICATED:
       return { ...state, authenticated: true }
-    case UNAUTHENTICATED:
+    case User.UNAUTHENTICATED:
     return { ...state, authenticated: false }
-    case AUTHENTICATION_ERROR:
+    case User.AUTHENTICATION_ERROR:
     return { ...state, error: action.payload }
     default: return state;
   }

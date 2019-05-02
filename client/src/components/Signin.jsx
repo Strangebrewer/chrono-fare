@@ -1,55 +1,84 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { signInAction } from '../redux/actions';
 import { connect } from 'react-redux';
+import styled from "styled-components";
+import { loginAction } from '../redux/actions';
 
-class Signin extends Component {
-  submit = values => {
-    console.log("Values: ", values);
-    this.props.signInAction(values, this.props.history);
+const SignIn = props => {
+  const submit = values => {
+    props.loginAction(values, props.history);
+    props.clearFields();
   }
 
-  errorMessage() {
-    if (this.props.errorMessage) {
+  const errorMessage = () => {
+    if (props.errorMessage) {
       return (
-        <div className="info-red">
-          {this.props.errorMessage}
-        </div>
+        <span className="info-red">
+          {props.errorMessage}
+        </span>
       )
     }
   }
 
-  render() {
-    console.log("Signin props: ", this.props)
-    const { handleSubmit } = this.props;
-    return (
-      <div className='form'>
-        <div className="container">
-          <h2>Sign In</h2>
-          <form onSubmit={handleSubmit(this.submit)}>
-            <Field
-              name="username"
-              component="input"
-              type="text"
-            />
-            <Field
-              name="password"
-              component="input"
-              type="password"
-            />
-            <button type="submit" className="blue">Sign In</button>
-          </form>
-          {this.errorMessage()}
-        </div>
-      </div>
-    );
-  }
+  console.log("Signin props: ", props)
+  const { handleSubmit } = props;
+  return (
+    <Container>
+      <Form onSubmit={handleSubmit(submit)}>
+        <h2>Sign In</h2>
+        <Field
+          name="username"
+          component="input"
+          type="text"
+          placeholder="username"
+        />
+        <Field
+          name="password"
+          component="input"
+          type="password"
+          placeholder="password"
+        />
+        <button type="submit" className="blue">Sign In</button>
+        {errorMessage() && <p style={{ color: 'red' }}>( {errorMessage()} )</p>}
+      </Form>
+    </Container>
+  );
 }
 
 function mapStateToProps(state) {
   return { errorMessage: state.auth.error }
 }
 
-const reduxFormSignin = reduxForm({ form: 'signin' })(Signin);
+const reduxFormSignIn = reduxForm({ form: 'signin' })(SignIn);
 
-export default connect(mapStateToProps, {signInAction})(reduxFormSignin);
+export default connect(mapStateToProps, { loginAction })(reduxFormSignIn);
+
+const Container = styled.div`
+  width: 300px;
+  margin: 50px auto;
+    text-align: center;
+  h2 {
+    font-size: 25px;
+    padding-bottom: 20px;
+  }
+  a {
+    font-size: 16px;
+  }
+`;
+
+const Form = styled.form`
+  width: 300px;
+  /* border: 1px solid #999; */
+  border-radius: 4px;
+  margin: 100px auto;
+  padding: 20px;
+  input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 3px 6px;
+  }
+  button {
+    display: block;
+    margin: 15px auto 15px auto;
+  }
+`;

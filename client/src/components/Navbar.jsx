@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import SignOut from './SignOut';
+
+const style = {
+  backgroundColor: '#554fa7',
+  border: '1px solid red',
+  color: 'white'
+}
 
 class Navbar extends Component {
   navbarLinks() {
     if (this.props.authenticated) {
       return [
-        <li key="secret"><Link to="/secret">Secret</Link></li>,
-        <li key="signout"><Link to="/signout">Sign Out</Link></li>
+        <li key="foods"><Link to="/foods">Foods</Link></li>,
+        <li key="signout"><SignOut style={style} /></li>
       ];
     }
     return [
-      <li key="signin"><Link to="/signin">Sign In</Link></li>,
-      <li key="signup"><Link to="/signup">Sign Up</Link></li>
+      <li key="signin"><Link to="/signin">Sign In</Link></li>
     ]
   }
 
@@ -20,7 +26,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar">
         <div className="container">
-          <Link to="?"><span className="brand">Auth-app</span></Link>
+          <Link to="/"><span className="brand">Hombre</span></Link>
           <ul>
             {this.navbarLinks()}
           </ul>

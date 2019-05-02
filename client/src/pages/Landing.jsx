@@ -2,51 +2,25 @@ import React, { useState } from 'react';
 import { Link, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import styled from "styled-components";
-import { signInAction } from '../redux/actions';
-import { login } from '../utils/API';
+import { loginAction } from '../redux/actions';
+import Navbar from '../components/Navbar';
 
 const Landing = props => {
-  // console.log("Landing props: ", props);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleInputChange = event => {
-    const { name, value } = event.target;
-    switch (name) {
-      case 'username': setUsername(value); break;
-      default: setPassword(value); break;
-    }
-  }
-
-  const handleFormSubmit = async event => {
-    event.preventDefault();
-    const user = await signInAction({ username, password }, props.history);
-  }
+  console.log("Landing props: ", props);
 
   return (
-    <Form>
-      <label>Username:</label>
-      <input
-        name="username"
-        type="text"
-        value={username}
-        onChange={handleInputChange}
-      />
-      <label>Password:</label>
-      <input
-        name="password"
-        type="password"
-        value={password}
-        onChange={handleInputChange}
-      />
-      <button onClick={handleFormSubmit}>Login</button>
-    </Form>
+    <>
+      <Navbar />
+      <Container>
+        <h1>Hi! Welcome to my fucking page!</h1>
+      </Container>
+    </>
   )
 }
 
 function mapStateToProps(state) {
   return {
-    // user: state.user,
+    user: state.user,
     // loggedIn: state.loggedIn,
     // loading: state.loading
   }
@@ -54,9 +28,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    // login: credentials => {
-    //   dispatch(login(credentials));
-    // },
+    loginAction: (credentials, history) => {
+      dispatch(loginAction(credentials, history));
+    },
     // signup: userData => {
     //   dispatch(signup(userData));
     // }
@@ -75,27 +49,5 @@ const Container = styled.div`
   }
   a {
     font-size: 16px;
-  }
-`;
-
-const Form = styled.form`
-  width: 300px;
-  border: 1px solid #999;
-  border-radius: 4px;
-  margin: 100px auto;
-  padding: 20px;
-  label, input {
-    width: 100%;
-  }
-  label {
-    font-size: 16px;
-  }
-  input {
-    margin: 5px 0;
-    padding: 3px 6px;
-  }
-  button {
-    display: block;
-    margin: 10px auto 0 auto;
   }
 `;

@@ -4,60 +4,51 @@ import { connect } from 'react-redux';
 import store from './store';
 import requireAuth from './components/Authentication';
 import requireNotAuth from './components/NotAuthentication';
-import Landing from './pages/Landing';
-import SignIn from './components/Signin'
+import Landing from './pages/Landing'
+import SignIn from './components/SignIn'
 import Foods from './pages/Foods';
 import * as API from './utils/API';
 import { buildHeaders } from './utils/utils';
-
 import addProps from './utils/AddPropsToRoute'
+import { AUTHENTICATED } from './redux/action_types/user_types';
 
-import { AUTHENTICATED } from './redux/actions/user_actions';
+const token = localStorage.getItem('token');
 
-const user = localStorage.getItem('token');
-
-if (user) {
+if (token) {
   store.dispatch({ type: AUTHENTICATED });
 }
-
-let is_authenticated = false;
 
 class App extends Component {
   render() {
     return (
       <Router>
         <Switch>
-          <Route exact path='/' component={
-            requireNotAuth(addProps(SignIn, {
+          <Route exact path='/'
+            component={addProps(Landing, {
               shit: 'shit',
-              fuck: 'fuck'
-            }))}
+              fuck: 'fuck',
+              silly: true,
+              funny: { subjective: true, stillValid: true, funny: 'yes' },
+              etc: 'many props can go here'
+            })}
           />
 
-          {/* <Route path="/signin" component={requireNotAuth(Signin)} /> */}
+          <Route path="/signin" component={requireNotAuth(SignIn)} />
 
           {/* <Route path="/signup" component={requireNotAuth(Signup)} /> */}
 
-          {/* <Route path="/signout" component={requireAuth(SignOut)} /> */}
-
           <Route path="/foods" component={requireAuth(Foods)} />
-
-          {/* <Route exact path='/foods'>
-            {routeProps => (
-              is_authenticated
-                ? (
-                  <Foods
-                    {...routeProps}
-                    user={this.state.user}
-                    loading={this.state.loading}
-                  />
-                ) : <Redirect to='/' />
-            )}
-          </Route> */}
+          
         </Switch>
       </Router>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(App);

@@ -3,7 +3,7 @@ import rootReducer from './redux/reducers/index';
 import thunk from 'redux-thunk';
 
 const defaultState = {
-  
+  loading: true
 }
 
 // this gives Redux in chrome dev tools access to this app's Redux store
