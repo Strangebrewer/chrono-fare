@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, Route, Redirect } from "react-router-dom";
 import { connect } from 'react-redux';
 import styled from "styled-components";
-import { loginAction } from '../redux/actions';
+import { loginAction } from '../redux/actions/user_actions';
 import Navbar from '../components/Navbar';
 
 const Landing = props => {
@@ -28,9 +28,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    loginAction: (credentials, history) => {
-      dispatch(loginAction(credentials, history));
-    },
+    // loginAction: (credentials, history) => {
+    //   dispatch(loginAction(credentials, history));
+    // },
     // signup: userData => {
     //   dispatch(signup(userData));
     // }

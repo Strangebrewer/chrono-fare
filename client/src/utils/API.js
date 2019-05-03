@@ -9,5 +9,13 @@ export function login(credentials) {
 }
 
 export function signup(data) {
-  
+
+}
+
+export function getFoods(headers) {
+  return axios.get('/api/foods', { ...headers });
+}
+
+export function newFood(data, headers) {
+  return axios.post('/api/foods', data, { ...headers });
 }

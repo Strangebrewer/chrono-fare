@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import styled from "styled-components";
-import { loginAction } from '../redux/actions';
+import { loginAction } from '../redux/actions/user_actions';
 
 const SignIn = props => {
   const submit = values => {
@@ -38,7 +38,7 @@ const SignIn = props => {
           type="password"
           placeholder="password"
         />
-        <button type="submit" className="blue">Sign In</button>
+        <button type="submit">Sign In</button>
         {errorMessage() && <p style={{ color: 'red' }}>( {errorMessage()} )</p>}
       </Form>
     </Container>
@@ -56,7 +56,7 @@ export default connect(mapStateToProps, { loginAction })(reduxFormSignIn);
 const Container = styled.div`
   width: 300px;
   margin: 50px auto;
-    text-align: center;
+  text-align: center;
   h2 {
     font-size: 25px;
     padding-bottom: 20px;

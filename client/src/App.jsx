@@ -5,7 +5,7 @@ import store from './store';
 import requireAuth from './components/Authentication';
 import requireNotAuth from './components/NotAuthentication';
 import Landing from './pages/Landing'
-import SignIn from './components/SignIn'
+import SignIn from './pages/SignIn';
 import Foods from './pages/Foods';
 import * as API from './utils/API';
 import { buildHeaders } from './utils/utils';
