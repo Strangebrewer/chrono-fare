@@ -6,54 +6,54 @@ import { newFoodAction } from '../../redux/actions/food_actions';
 import { buildHeaders } from '../../utils/utils';
 
 const NewFood = props => {
-  const { handleSubmit } = props;
+   const { handleSubmit } = props;
 
-  const submit = values => {
-    console.log("Values: ", values);
-    props.newFoodAction(values, buildHeaders());
-    props.resetForm('newfood')
-  }
+   const submit = values => {
+      console.log("Values: ", values);
+      props.newFoodAction(values, buildHeaders());
+      props.resetForm('newfood')
+   }
 
-  return (
-    <Form onSubmit={handleSubmit(submit)} name="newfood">
-      <h2>Add to Fridge</h2>
-      <Field
-        name="name"
-        component="input"
-        type="text"
-        placeholder="name"
-      />
-      <Field
-        name="comment"
-        component="input"
-        type="text"
-        placeholder="comment"
-      />
-      <Field
-        name="date"
-        component="input"
-        type="date"
-      />
-      <button type="submit">Save</button>
-    </Form>
-  )
+   return (
+      <Form onSubmit={handleSubmit(submit)} name="newfood">
+         <h2>Add to Fridge</h2>
+         <Field
+            name="name"
+            component="input"
+            type="text"
+            placeholder="name"
+         />
+         <Field
+            name="description"
+            component="input"
+            type="text"
+            placeholder="comment"
+         />
+         <Field
+            name="date"
+            component="input"
+            type="date"
+         />
+         <button type="submit">Save</button>
+      </Form>
+   )
 }
 
 function mapStateToProps(state) {
-  return {
-    foods: state.foods
-  }
+   return {
+      foods: state.foods
+   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    newFoodAction: (newFood, headers) => {
-      dispatch(newFoodAction(newFood, headers));
-    },
-    resetForm: (form_name) => {
-      dispatch(reset(form_name));
-    }
-  }
+   return {
+      newFoodAction: (newFood, headers) => {
+         dispatch(newFoodAction(newFood, headers));
+      },
+      resetForm: (form_name) => {
+         dispatch(reset(form_name));
+      }
+   }
 }
 
 const reduxFormNewFood = reduxForm({ form: 'newfood' })(NewFood);

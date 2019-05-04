@@ -4,15 +4,20 @@ const food_model = new Food(FoodModel);
 
 module.exports = apiController = {};
 
-apiController.getFoods = async function (req, res) {
-  console.log("Request received.");
-  res.json([{ name: 'grated cheese', description: "colby jack in the big tub with the blue lid", date: '2019/05/02' }]);
+apiController.getAllFoods = async function (req, res) {
+   try {
+      const foods = await food_model.getAllFoods();
+      res.json(foods);
+   } catch (e) {
+      console.log("Error: ", e);
+   }
 }
 
-apiController.newFood = async function (req, res) {
-  console.log(req.body);
-  res.json([
-    { name: 'grated cheese', description: "colby jack in the big tub with the blue lid", date: '2019/05/02' },
-    { name: 'black-eyed peas', description: "", date: '2019/04/30' }
-  ])
+apiController.addNewFood = async function (req, res) {
+   try {
+      const foods = await food_model.addNewFood(req.user._id, req.body);
+      res.json(foods);
+   } catch (e) {
+      console.log("Error: ", e);
+   }
 }

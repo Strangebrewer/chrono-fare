@@ -5,48 +5,49 @@ import styled from "styled-components";
 import { loginAction } from '../redux/actions/user_actions';
 
 const SignIn = props => {
-  const submit = values => {
-    props.loginAction(values, props.history);
-    props.clearFields();
-  }
+   
+   const submit = values => {
+      props.loginAction(values, props.history);
+      props.clearFields();
+   }
 
-  const errorMessage = () => {
-    if (props.errorMessage) {
-      return (
-        <span className="info-red">
-          {props.errorMessage}
-        </span>
-      )
-    }
-  }
+   const errorMessage = () => {
+      if (props.errorMessage) {
+         return (
+            <span className="info-red">
+               {props.errorMessage}
+            </span>
+         )
+      }
+   }
 
-  console.log("Signin props: ", props)
-  const { handleSubmit } = props;
-  return (
-    <Container>
-      <Form onSubmit={handleSubmit(submit)}>
-        <h2>Sign In</h2>
-        <Field
-          name="username"
-          component="input"
-          type="text"
-          placeholder="username"
-        />
-        <Field
-          name="password"
-          component="input"
-          type="password"
-          placeholder="password"
-        />
-        <button type="submit">Sign In</button>
-        {errorMessage() && <p style={{ color: 'red' }}>( {errorMessage()} )</p>}
-      </Form>
-    </Container>
-  );
+   console.log("Signin props: ", props)
+   const { handleSubmit } = props;
+   return (
+      <Container>
+         <Form onSubmit={handleSubmit(submit)}>
+            <h2>Sign In</h2>
+            <Field
+               name="username"
+               component="input"
+               type="text"
+               placeholder="username"
+            />
+            <Field
+               name="password"
+               component="input"
+               type="password"
+               placeholder="password"
+            />
+            <button type="submit">Sign In</button>
+            {errorMessage() && <p style={{ color: 'red' }}>( {errorMessage()} )</p>}
+         </Form>
+      </Container>
+   );
 }
 
 function mapStateToProps(state) {
-  return { errorMessage: state.auth.error }
+   return { errorMessage: state.auth.error }
 }
 
 const reduxFormSignIn = reduxForm({ form: 'signin' })(SignIn);

@@ -6,35 +6,35 @@ import { loginAction } from '../redux/actions/user_actions';
 import Navbar from '../components/Navbar';
 
 const Landing = props => {
-  console.log("Landing props: ", props);
+   console.log("Landing props: ", props);
 
-  return (
-    <>
-      <Navbar />
-      <Container>
-        <h1>Hi! Welcome to my fucking page!</h1>
-      </Container>
-    </>
-  )
+   return (
+      <>
+         <Navbar />
+         <Container>
+            <h1>Hi! Welcome to my fucking page!</h1>
+         </Container>
+      </>
+   )
 }
 
 function mapStateToProps(state) {
-  return {
-    user: state.user,
-    // loggedIn: state.loggedIn,
-    // loading: state.loading
-  }
+   return {
+      user: state.user,
+      // loggedIn: state.loggedIn,
+      // loading: state.loading
+   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    // loginAction: (credentials, history) => {
-    //   dispatch(loginAction(credentials, history));
-    // },
-    // signup: userData => {
-    //   dispatch(signup(userData));
-    // }
-  }
+   return {
+      // loginAction: (credentials, history) => {
+      //   dispatch(loginAction(credentials, history));
+      // },
+      // signup: userData => {
+      //   dispatch(signup(userData));
+      // }
+   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
