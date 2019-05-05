@@ -37,9 +37,6 @@ export const GlobalStyle = createGlobalStyle`
   ol, ul {
 	  list-style: none;
   }
-  /* body::-webkit-scrollbar {
-    display: none;
-  } */
   blockquote, q {
     quotes: none;
   }

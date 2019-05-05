@@ -4,7 +4,7 @@ import { signoutAction } from '../redux/actions/user_actions';
 
 const SignOut = props => {
   return (
-    <button style={props.style} onClick={props.signOut}>Sign Out</button>
+    <button style={props.style} onClick={props.signOut}><i className="fas fa-sign-out" /></button>
   );
 }
 

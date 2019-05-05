@@ -6,9 +6,9 @@ router.route('/foods')
    .get(passport.authenticate('jwt', { session: false }), apiController.getAllFoods)
    .post(passport.authenticate('jwt', { session: false }), apiController.addNewFood)
 
-function logThis(req, res, next) {
-   console.log('Working');
-   next();
-}
+// function logThis(req, res, next) {
+//    console.log('Working');
+//    next();
+// }
 
 module.exports = router;

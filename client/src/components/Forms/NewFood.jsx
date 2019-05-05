@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Field, reduxForm, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import store from '../../store';
+import * as Utils from '../../redux/action_types/utils_types';
 import { newFoodAction } from '../../redux/actions/food_actions';
 import { buildHeaders } from '../../utils/utils';
 
@@ -9,9 +11,11 @@ const NewFood = props => {
    const { handleSubmit } = props;
 
    const submit = values => {
+      store.dispatch({ type: Utils.TOGGLE_LOADING });
       console.log("Values: ", values);
       props.newFoodAction(values, buildHeaders());
-      props.resetForm('newfood')
+      props.resetForm('newfood');
+      props.closeModal();
    }
 
    return (

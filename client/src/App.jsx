@@ -31,15 +31,14 @@ class App extends PureComponent {
    }
 
    render() {
-      console.log("App props: ", this.props)
+      // console.log("App props: ", this.props);
       return (
          <Router>
             <Switch>
 
-               <Route exact path="/" component={Design} />
+               {/* <Route exact path="/" component={Design} /> */}
 
-
-               {/* <Route exact path='/'
+               <Route exact path='/'
                   component={addProps(Landing, {
                      shit: 'shit',
                      fuck: 'fuck',
@@ -47,7 +46,7 @@ class App extends PureComponent {
                      funny: { subjective: true, stillValid: true, funny: 'yes' },
                      etc: 'many props can go here'
                   })}
-               /> */}
+               />
 
                <Route path="/signin" component={requireNotAuth(SignIn)} />
 

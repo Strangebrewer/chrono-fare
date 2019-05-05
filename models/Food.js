@@ -11,7 +11,6 @@ class Food {
    }
 
    async getAllFoods(user_id) {
-      console.log("User id: ", user_id)
       try {
          const foods = await this.FoodModel.find({ user_id });
          return foods;
@@ -27,7 +26,6 @@ class Food {
          const new_food = await this.FoodModel.create(newFoodObject);
          user_model.addFoodToUser(user_id, new_food._id);
          const foods = await this.getAllFoods(user_id);
-         console.log("Foods: ", foods);
          return foods;
       } catch (e) {
          console.log("Error in Food model, addNewFood: ", e);
