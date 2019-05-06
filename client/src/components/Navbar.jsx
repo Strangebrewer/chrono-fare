@@ -21,7 +21,6 @@ class Navbar extends Component {
       return (
          <Container>
             <Inner className="container">
-               {/* <Link to="/" className="logo">Chrono Fare™</Link> */}
                <Link to="/"><button><i className="fas fa-home" /></button></Link>
                {this.navbarLinks()}
             </Inner>
@@ -45,27 +44,14 @@ const Inner = styled.div`
    width: 320px;
    max-width: 80%;
    margin: auto;
-   font-size: 15px;
+   /* font-size: 40px; */
    text-align: center;
    display: flex;
-   flex-wrap: wrap;
-   justify-content: flex-end;
+   /* justify-content: flex-end; */
+   justify-content: center;
    justify-self: end;
    position: relative;
-   .logo {
-      /* position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0; */
-      width: 100%;
-      font-size: 16px;
-      color: #26a3ec;
-      margin: auto;
-      vertical-align: bottom;
-   }
-   .logo-turkey {
-      font-size: 24px;
-   }
+   /* padding-left: 15px; */
    a {
       text-decoration: none;
    }
@@ -76,34 +62,11 @@ const Inner = styled.div`
       cursor: pointer;
       height: 40px;
       min-width: 75px;
-      padding: 0 10px;
       display: flex;
       justify-content: center;
       outline: transparent;
       position: relative;
-      &:before {
-         content: '';  
-         width: 2px;
-         height: 100%;
-         left: 0;
-         position: absolute;
-         transform: skew(-20deg);
-         top: 0;
-         bottom: 0;
-         background-color: #0baa82;
-      }
-      &:after {
-         height: 2px;
-         background: red;
-         content: '';
-         width: 0;
-         position: absolute;
-         transform: translateX(-50%);
-         transition: width 0.4s;
-         transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
-         left: 50%;
-         margin-top: 2rem;
-      }
+      font-size: 18px;
       &:hover {
          color: #fff;
          transition: color .15s ease-in-out;

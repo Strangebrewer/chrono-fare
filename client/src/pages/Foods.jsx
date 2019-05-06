@@ -37,21 +37,17 @@ const Foods = React.memo(props => {
                ) : (
                   <>
                      {props.foods.map((food, index) => {
-                        // move all of this logic to the Food model
-                        const just_the_time = dateFns.format(food.createdAt, 'hh:mm a');
-                        const formatted_date = dateFns.format(food.createdAt, 'MMM Do, YYYY - hh:mm a')
                         const difference = dateFns.differenceInCalendarDays(new Date(), food.createdAt);
-                        const age = difference === 0 ? `from today at ${just_the_time}` : `${difference} days old`;
-                        
+                        const age = difference === 0 ? `new` : `${difference} days old`;                        
                         return (
                            <FoodItem key={index}>
                               <h1>{food.name}</h1>
                               <p>{food.description}</p>
-                              <p>{formatted_date}</p>
                               <p>{age}</p>
                            </FoodItem>
                         )
                      })}
+
                      <Modal>
                         {modalProps => (
                            <PlusSignIcon>
@@ -88,22 +84,33 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(Foods);
 
 const Container = styled.div`
-   width: 320px;
+   /* width: 320px; */
    height: calc(100vh - 40px);
    margin: auto;
    position: relative;
-   padding: 15px;
+   background-color: black;
 `;
 
 const FoodItem = styled.div`
    width: 100%;
-   padding: 5px 10px;
+   padding: 5px 15px;
+   margin: 20px 0;
+   position: relative;
+   color: white;
    h1 {
-      font-size: 2rem;
+      font-size: 1.6rem;
+      font-weight: bold;
    }
    p:first-of-type {
-      text-indent: 20px;
+      /* text-indent: 20px; */
       font-size: 1.2rem;
+      margin: 3px 0 5px 0;
+   }
+   p:last-of-type {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 1.3rem;
    }
 `;
 
