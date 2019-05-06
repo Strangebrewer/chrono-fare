@@ -6,6 +6,7 @@ import { GridLoader } from 'react-spinners';
 import Navbar from '../components/Navbar';
 import Modal from '../components/ModalLogic';
 import NewFoodForm from '../components/Forms/NewFood';
+import FoodItem from '../components/FoodItem';
 import { getFoodsAction } from '../redux/actions/food_actions';
 import { buildHeaders } from '../utils/utils';
 
@@ -37,15 +38,12 @@ const Foods = React.memo(props => {
                ) : (
                   <>
                      {props.foods.map((food, index) => {
+                        // move this logic to the Food model 
+                        // to figure it out here and pass it down will make it confusing 
                         const difference = dateFns.differenceInCalendarDays(new Date(), food.createdAt);
-                        const age = difference === 0 ? `new` : `${difference} days old`;                        
-                        return (
-                           <FoodItem key={index}>
-                              <h1>{food.name}</h1>
-                              <p>{food.description}</p>
-                              <p>{age}</p>
-                           </FoodItem>
-                        )
+                        const age = difference === 0 ? `new` : `${difference} days old`;
+                        food.age = age;
+                        return <FoodItem key={index} food={food} />;
                      })}
 
                      <Modal>
@@ -60,7 +58,6 @@ const Foods = React.memo(props => {
             }
 
          </Container>
-
       </>
    );
 });
@@ -89,29 +86,6 @@ const Container = styled.div`
    margin: auto;
    position: relative;
    background-color: black;
-`;
-
-const FoodItem = styled.div`
-   width: 100%;
-   padding: 5px 15px;
-   margin: 20px 0;
-   position: relative;
-   color: white;
-   h1 {
-      font-size: 1.6rem;
-      font-weight: bold;
-   }
-   p:first-of-type {
-      /* text-indent: 20px; */
-      font-size: 1.2rem;
-      margin: 3px 0 5px 0;
-   }
-   p:last-of-type {
-      position: absolute;
-      right: 15px;
-      top: 15px;
-      font-size: 1.3rem;
-   }
 `;
 
 const PlusSignIcon = styled.span`
