@@ -23,12 +23,25 @@ class Food {
       const user_model = new User(UserModel);
       try {
          const newFoodObject = { ...food_data, user_id }
-         const new_food = await this.FoodModel.create(newFoodObject);
+         console.log("New Food Object: ", newFoodObject)
+         const new_food = await this.FoodModel.create(newFoodObject, { new: true });
+         console.log("New Food: ", new_food)
          user_model.addFoodToUser(user_id, new_food._id);
-         const foods = await this.getAllFoods(user_id);
-         return foods;
+         // const foods = await this.getAllFoods(user_id);
+         return new_food;
       } catch (e) {
          console.log("Error in Food model, addNewFood: ", e);
+      }
+   }
+
+   async deleteFood(user_id, food_id) {
+      const user_model = new User(UserModel);
+      try {
+         await user_model.removeFoodFromUser(user_id, food_id);
+         await this.FoodModel.findByIdAndDelete(food_id);
+         return 'success!';
+      } catch (e) {
+         console.log("Error in Food model, deleteFood: ", e);
       }
    }
 }

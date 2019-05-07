@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Modal from './ModalLogic';
+import { deleteFoodAction } from '../redux/actions/food_actions';
+import { buildHeaders } from '../utils/utils';
 
 const FoodItem = React.memo(props => {
 
@@ -25,11 +28,17 @@ const FoodItem = React.memo(props => {
          body: <p>Are you sure you want to delete {props.food.name}?</p>,
          buttons: (
             <>
-               <button>Yes, Delete It</button>
-               <button>No, Keep It</button>
+               <button onClick={() => deleteFood(closeModal)}>Yes, Delete It</button>
+               <button onClick={closeModal}>No, Keep It</button>
             </>
          )
       });
+   }
+
+   const deleteFood = closeModal => {
+      props.deleteFood(props.food._id, buildHeaders());
+      closeModal();
+      toggleButtons();
    }
 
    const { age, description, name } = props.food
@@ -42,7 +51,7 @@ const FoodItem = React.memo(props => {
                <p>{description}</p>
                <p>{age}</p>
                <span><i onClick={toggleButtons} className="fal fa-ellipsis-h" /></span>
-               <BtnDiv display={showButtons}>
+               <BtnDiv isDisplayed={showButtons}>
                   <button onClick={() => editModal(modalProps)}>EDIT</button>
                   <button onClick={() => deleteModal(modalProps)}>DELETE</button>
                </BtnDiv>
@@ -52,18 +61,30 @@ const FoodItem = React.memo(props => {
    )
 });
 
-export default FoodItem;
+function mapStateToProps(state) {
+   return {}
+}
+
+function mapDispatchToProps(dispatch) {
+   return {
+      deleteFood: (id, headers) => {
+         dispatch(deleteFoodAction(id, headers));
+      }
+   }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FoodItem);
 
 const BtnDiv = styled.div`
-   opacity: ${props => props.display ? '1' : '0'};
-   transform: ${props => props.display ? 'translateY(25px)' : 'translateY(-5px)'};
-   transition: ${props => props.display
+   opacity: ${props => props.isDisplayed ? '1' : '0'};
+   transform: ${props => props.isDisplayed ? 'translateY(25px)' : 'translateY(-5px)'};
+   transition: ${props => props.isDisplayed
       ? 'opacity .2s ease-in-out, transform .1s ease-in-out'
       : 'opacity .1s ease-in-out, transform .2s ease-in-out'};
    position: absolute;
    bottom: 0;
    right: 15px;
-   z-index: ${props => props.display ? '2' : '1'};
+   z-index: ${props => props.isDisplayed ? '2' : '1'};
    button {
       border: none;
       border-radius: 5px;

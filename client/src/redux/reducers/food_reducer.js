@@ -5,6 +5,10 @@ export function foodReducer(state = [], action) {
       case Food.SET_FOODS:
          return [
             ...action.payload
+         ];
+      case Food.DELETE_FOOD:
+         return [
+            ...state.filter(food => food._id !== action.payload)
          ]
       default: return state;
    }

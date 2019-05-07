@@ -6,6 +6,9 @@ router.route('/foods')
    .get(passport.authenticate('jwt', { session: false }), apiController.getAllFoods)
    .post(passport.authenticate('jwt', { session: false }), apiController.addNewFood)
 
+router.route('/foods/:id')
+   .delete(passport.authenticate('jwt', { session: false }), apiController.deleteFood)
+
 // function logThis(req, res, next) {
 //    console.log('Working');
 //    next();

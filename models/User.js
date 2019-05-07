@@ -152,10 +152,21 @@ class User {
       try {
          await this.UserModel.findByIdAndUpdate(user_id, {
             $push: { foods: food_id }
-         })
+         });
          return 'success!';
       } catch (e) {
          console.log("Error in User model, addFoodToUser: ", e);
+      }
+   }
+
+   async removeFoodFromUser(user_id, food_id) {
+      try {
+         await this.UserModel.findByIdAndUpdate(user_id, {
+            $pull: { foods: food_id }
+         });
+         return 'success!';
+      } catch (e) {
+         console.log("Error in User model, deleteFood: ", e);
       }
    }
 

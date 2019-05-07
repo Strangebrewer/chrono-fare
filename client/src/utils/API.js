@@ -19,3 +19,7 @@ export function getFoods(headers) {
 export function newFood(data, headers) {
    return axios.post('/api/foods', data, { ...headers });
 }
+
+export function deleteFood(id, headers) {
+   return axios.delete(`/api/foods/${id}`, { ...headers });
+}
