@@ -12,9 +12,23 @@ import { buildHeaders } from '../utils/utils';
 
 const Foods = React.memo(props => {
 
+   const [showing, setShowing] = useState('');
+   const [wait, setWait] = useState(false)
+
    useEffect(() => {
       props.getFoodsAction(buildHeaders());
-   }, [])
+   }, []);
+
+   const toggleButtons = id => {
+      if (id === showing) {
+         return (
+            setShowing('')
+         )
+      }
+      if (showing !== '') setWait(true);
+      else setWait(false);
+      setShowing(id);
+   }
 
    const newFoodModal = modal => {
       modal.setModal({
@@ -43,7 +57,17 @@ const Foods = React.memo(props => {
                         const difference = dateFns.differenceInCalendarDays(new Date(), food.createdAt);
                         const age = difference === 0 ? `new` : `${difference} days old`;
                         food.age = age;
-                        return <FoodItem key={index} food={food} />;
+                        let show = false;
+                        if (showing === food._id) show = showing;
+                        return (
+                           <FoodItem
+                              key={index}
+                              food={food}
+                              show={show}
+                              toggleButtons={toggleButtons}
+                              wait={wait}
+                           />
+                        )
                      })}
 
                      <Modal>

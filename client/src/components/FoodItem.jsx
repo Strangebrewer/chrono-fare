@@ -7,12 +7,6 @@ import { buildHeaders } from '../utils/utils';
 
 const FoodItem = React.memo(props => {
 
-   const [showButtons, setshowButtons] = useState(false);
-
-   const toggleButtons = () => {
-      setshowButtons(!showButtons);
-   }
-
    const editModal = modal => {
       const { setModal, closeModal } = modal;
       setModal({
@@ -38,20 +32,20 @@ const FoodItem = React.memo(props => {
    const deleteFood = closeModal => {
       props.deleteFood(props.food._id, buildHeaders());
       closeModal();
-      toggleButtons();
+      props.toggleButtons();
    }
 
-   const { age, description, name } = props.food
+   const { _id, age, description, name } = props.food
 
    return (
       <Modal>
          {modalProps => (
-            <Container>
+            <Container isDisplayed={props.show}>
                <h1>{name}</h1>
                <p>{description}</p>
                <p>{age}</p>
-               <span><i onClick={toggleButtons} className="fal fa-ellipsis-h" /></span>
-               <BtnDiv isDisplayed={showButtons}>
+               <span><i onClick={() => props.toggleButtons(_id)} className="fal fa-ellipsis-h" /></span>
+               <BtnDiv isDisplayed={props.show} wait={props.wait}>
                   <button onClick={() => editModal(modalProps)}>EDIT</button>
                   <button onClick={() => deleteModal(modalProps)}>DELETE</button>
                </BtnDiv>
@@ -77,14 +71,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(FoodItem);
 
 const BtnDiv = styled.div`
    opacity: ${props => props.isDisplayed ? '1' : '0'};
-   transform: ${props => props.isDisplayed ? 'translateY(25px)' : 'translateY(-5px)'};
+   transform: ${props => props.isDisplayed ? 'translateX(-75px)' : 'translateX(250px)'};
    transition: ${props => props.isDisplayed
-      ? 'opacity .2s ease-in-out, transform .1s ease-in-out'
-      : 'opacity .1s ease-in-out, transform .2s ease-in-out'};
+      ? props => props.wait
+         ? 'opacity .15s ease-in-out 0.2s, transform .15s ease-in-out 0.2s'
+         : 'opacity .2s ease-in-out, transform .15s ease-in-out'
+      : 'opacity .1s ease-in-out, transform .15s ease-in-out, visibility .4s ease-in-out'}; 
    position: absolute;
-   bottom: 0;
+   bottom: 10px;
    right: 15px;
-   z-index: ${props => props.isDisplayed ? '2' : '1'};
+   z-index: ${props => props.isDisplayed ? '3' : '1'};
+   visibility: ${props => props.isDisplayed ? 'visible' : 'hidden'};
    button {
       border: none;
       border-radius: 5px;
@@ -108,12 +105,12 @@ const Container = styled.div`
    margin: 20px 0;
    position: relative;
    color: white;
+   z-index: 2;
    h1 {
       font-size: 1.6rem;
       font-weight: bold;
    }
    p:first-of-type {
-      /* text-indent: 20px; */
       font-size: 1.2rem;
       margin: 5px 0 5px 0;
    }
@@ -124,10 +121,12 @@ const Container = styled.div`
       font-size: 1.3rem;
    }
    span {
+      color: ${props => props.isDisplayed ? '#666' : '#fff'};
       position: absolute;
       bottom: 1px;
       right: 5px;
       font-size: 3.5rem;
       z-index: 9;
+      transition: color 0.2s ease-in-out;
    }
 `;
