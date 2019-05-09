@@ -11,7 +11,7 @@ export function getFoodsAction(headers) {
             payload: foods.data
          });
       } catch (e) {
-
+         // console.log("getFoodsAction error: ", e);
       }
    }
 }
@@ -20,9 +20,23 @@ export function newFoodAction(data, headers) {
    return async dispatch => {
       try {
          const food = await API.newFood(data, headers);
-         console.log("New Food: ", food)
          dispatch({
             type: Food.ADD_FOOD,
+            payload: food.data
+         });
+         dispatch({ type: Utils.TOGGLE_LOADING });
+      } catch (e) {
+
+      }
+   }
+}
+
+export function editFoodAction(id, data, headers) {
+   return async dispatch => {
+      try {
+         const food = await API.editFood(id, data, headers);
+         dispatch({
+            type: Food.EDIT_FOOD,
             payload: food.data
          });
          dispatch({ type: Utils.TOGGLE_LOADING });

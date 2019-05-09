@@ -9,12 +9,10 @@ const Landing = props => {
    console.log("Landing props: ", props);
 
    return (
-      <>
+      <Container>
          <Navbar />
-         <Container>
-            <h1>Hi! Welcome to my fucking page!</h1>
-         </Container>
-      </>
+         <h1>Hi! Welcome to my fucking page!</h1>
+      </Container>
    )
 }
 
@@ -40,14 +38,14 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(Landing);
 
 const Container = styled.div`
-  width: 300px;
-  margin: 50px auto;
-    text-align: center;
-  h1 {
-    font-size: 25px;
-    padding-bottom: 20px;
-  }
-  a {
-    font-size: 16px;
-  }
+   width: 100%;
+   height: 100vh;
+   text-align: center;
+   h1 {
+      font-size: 25px;
+      padding-bottom: 20px;
+   }
+   a {
+      font-size: 16px;
+   }
 `;

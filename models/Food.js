@@ -1,5 +1,7 @@
 const User = require('./User');
 const UserModel = require('./UserModel');
+const user_model = new User(UserModel);
+const dateFns = require('date-fns');
 
 class Food {
    constructor(model) {
@@ -10,38 +12,37 @@ class Food {
       this.FoodModel = model;
    }
 
-   async getAllFoods(user_id) {
+   async addNewFood(user_id, food_data) {
       try {
-         const foods = await this.FoodModel.find({ user_id });
-         return foods;
+         const date = dateFns.format(food_data.date, 'x');
+         food_data.date = date;
+         const newFoodObject = { ...food_data, user_id }
+         const new_food = await this.FoodModel.create(newFoodObject);
+         user_model.addFoodToUser(user_id, new_food._id);
+         return new_food;
       } catch (e) {
-         console.log("Error in Food model, getAllFoods: ", e);
+         console.log("Error in Food model, \'addNewFood\': ", e.message)
       }
    }
 
-   async addNewFood(user_id, food_data) {
-      const user_model = new User(UserModel);
+   async editFood(food_id, food_data) {
       try {
-         const newFoodObject = { ...food_data, user_id }
-         console.log("New Food Object: ", newFoodObject)
-         const new_food = await this.FoodModel.create(newFoodObject, { new: true });
-         console.log("New Food: ", new_food)
-         user_model.addFoodToUser(user_id, new_food._id);
-         // const foods = await this.getAllFoods(user_id);
-         return new_food;
+         const date = dateFns.format(food_data.date, 'x');
+         food_data.date = date;
+         const food = await this.FoodModel.findByIdAndUpdate(food_id, food_data, { new: true });
+         return food;
       } catch (e) {
-         console.log("Error in Food model, addNewFood: ", e);
+         console.log("Error in Food model, \'editFood\': ", e.message)
       }
    }
 
    async deleteFood(user_id, food_id) {
-      const user_model = new User(UserModel);
       try {
          await user_model.removeFoodFromUser(user_id, food_id);
          await this.FoodModel.findByIdAndDelete(food_id);
          return 'success!';
       } catch (e) {
-         console.log("Error in Food model, deleteFood: ", e);
+         console.log("Error in Food model, \'deleteFood\': ", e.message)
       }
    }
 }

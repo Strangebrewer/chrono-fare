@@ -20,6 +20,10 @@ export function newFood(data, headers) {
    return axios.post('/api/foods', data, { ...headers });
 }
 
+export function editFood(id, data, headers) {
+   return axios.put(`/api/foods/${id}`, data, { ...headers });
+}
+
 export function deleteFood(id, headers) {
    return axios.delete(`/api/foods/${id}`, { ...headers });
 }

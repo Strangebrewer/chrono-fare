@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Field, reduxForm, reset } from 'redux-form';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
@@ -10,10 +10,9 @@ import { buildHeaders } from '../../utils/utils';
 const NewFood = props => {
    const { handleSubmit } = props;
 
-   const submit = values => {
+   const submit = data => {
       store.dispatch({ type: Utils.TOGGLE_LOADING });
-      console.log("Values: ", values);
-      props.newFoodAction(values, buildHeaders());
+      props.newFood(data, buildHeaders());
       props.resetForm('newfood');
       props.closeModal();
    }
@@ -44,14 +43,12 @@ const NewFood = props => {
 }
 
 function mapStateToProps(state) {
-   return {
-      foods: state.foods
-   }
+   return {}
 }
 
 function mapDispatchToProps(dispatch) {
    return {
-      newFoodAction: (newFood, headers) => {
+      newFood: (newFood, headers) => {
          dispatch(newFoodAction(newFood, headers));
       },
       resetForm: (form_name) => {
@@ -66,7 +63,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(reduxFormNewFood);
 
 
 const Form = styled.form`
-  width: 300px;
+  /* width: 300px; */
   /* border: 1px solid #999; */
   margin: 50px auto;
   padding: 30px 15px;

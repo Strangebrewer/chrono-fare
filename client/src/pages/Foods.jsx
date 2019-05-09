@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import dateFns from 'date-fns';
 import styled from 'styled-components';
-import { GridLoader } from 'react-spinners';
+import { CircleLoader } from 'react-spinners';
 import Navbar from '../components/Navbar';
 import Modal from '../components/ModalLogic';
 import NewFoodForm from '../components/Forms/NewFood';
@@ -10,7 +10,7 @@ import FoodItem from '../components/FoodItem';
 import { getFoodsAction } from '../redux/actions/food_actions';
 import { buildHeaders } from '../utils/utils';
 
-const Foods = React.memo(props => {
+const Foods = props => {
 
    const [showing, setShowing] = useState('');
    const [wait, setWait] = useState(false)
@@ -38,23 +38,26 @@ const Foods = React.memo(props => {
 
    console.log("Foods props: ", props);
 
+
+
    return (
       <>
-         <Navbar />
          <Container>
+            <Navbar />
             {props.loading
                ? (
-                  <GridLoader
-                     color={'#587af3'}
-                     loading={props.loading}
-                     size={15}
-                  />
+                  <LoadingContainer>
+                     <CircleLoader
+                        color={'#587af3'}
+                        loading={props.loading}
+                        size={100}
+                     />
+                  </LoadingContainer>
+
                ) : (
                   <>
                      {props.foods.map((food, index) => {
-                        // move this logic to the Food model 
-                        // to figure it out here and pass it down will make it confusing 
-                        const difference = dateFns.differenceInCalendarDays(new Date(), food.createdAt);
+                        const difference = dateFns.differenceInCalendarDays(new Date(), parseInt(food.date));
                         const age = difference === 0 ? `new` : `${difference} days old`;
                         food.age = age;
                         let show = false;
@@ -72,7 +75,7 @@ const Foods = React.memo(props => {
 
                      <Modal>
                         {modalProps => (
-                           <PlusSignIcon>
+                           < PlusSignIcon >
                               <i className="fas fa-plus-circle" onClick={() => newFoodModal(modalProps)} />
                            </PlusSignIcon>
                         )}
@@ -84,7 +87,7 @@ const Foods = React.memo(props => {
          </Container>
       </>
    );
-});
+};
 
 function mapStateToProps(state) {
    return {
@@ -105,18 +108,25 @@ function mapDispatchToProps(dispatch) {
 export default connect(mapStateToProps, mapDispatchToProps)(Foods);
 
 const Container = styled.div`
-   /* width: 320px; */
-   height: calc(100vh - 40px);
+   width: 100%;
+   height: 100vh;
    margin: auto;
    position: relative;
-   background-color: black;
+   background-color: transparent;
+`;
+
+const LoadingContainer = styled.div`
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 50vh;
 `;
 
 const PlusSignIcon = styled.span`
-   color: #0baa82;
+   color: ${props => props.theme.green};
    cursor: pointer;
    font-size: 35px;
    position: absolute;
-   bottom: 40px;
-   right: 20px;
+   bottom: 50px;
+   right: 30px;
 `;

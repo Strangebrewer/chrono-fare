@@ -7,20 +7,20 @@ const { PASSPORT_SECRET } = process.env;
 const sign = payload => jwt.sign(payload, PASSPORT_SECRET);
 
 const options = {
-  jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  secretOrKey: PASSPORT_SECRET
+   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+   secretOrKey: PASSPORT_SECRET
 };
 
 passport.use(new Strategy(options, async (payload, done) => {
-  try {
-    const user = await UserModel.findById(payload.id);
-    return done(null, user);
-  } catch (e) {
-    return done(e, false);
-  }
+   try {
+      const user = await UserModel.findById(payload.id);
+      return done(null, user);
+   } catch (e) {
+      return done(e, false);
+   }
 }))
 
 module.exports = {
-  sign,
-  passport
+   sign,
+   passport
 }

@@ -26,7 +26,6 @@ export function loginAction(credentials, history) {
    return async dispatch => {
       try {
          const user = await API.login(credentials);
-         console.log("user from loginAction: ", user)
          if (user.data.error) {
             dispatch({
                type: User.AUTHENTICATION_ERROR,
@@ -55,7 +54,7 @@ export function signupAction(signupData) {
          .then(user => {
             dispatch({ type: User.AUTHENTICATED });
             localStorage.setItem('token', user.data.token);
-            dispatch({ type: 'SIGNUP_USER', payload: user.data });
+            dispatch({ type: User.SET_CURRENT_USER, payload: user.data });
          })
          .catch(error => {
             console.log("Error in signup: ", error);
