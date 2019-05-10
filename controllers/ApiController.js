@@ -25,7 +25,6 @@ apiController.addNewFood = async function (req, res) {
 apiController.editFood = async function (req, res) {
    try {
       const food = await food_model.editFood(req.params.id, req.body, { new: true });
-      // const food = await food_model.editFood(req.params.id, req.body);
       res.json(food);
    } catch (e) {
       res.send('Error in \'editFood\' in apiController: ', e.message);

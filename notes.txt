@@ -1,1 +1,17 @@
-if this won't start in production mode, change the package.json "start:prod": "node start.js" to "start:prod": "node server.js"
+
+
+Add component to search users by username or name.
+   - Clicking the name in the search results should take you to their door
+   - Doors should have a button for sending a friend request
+   
+You should have two lists:
+   - Friends
+   - Fridge Mates
+Food can be shared with all friends, all fridge mates, or specific people
+
+Add functionality to upload an image or paste the address for one (for profile pic)
+
+Add a text editor for adding recipes:
+   - Recipe name
+   - the recipe itself can be formatted by the user (see dragon writer editors)
+   - Your door can have a link to your recipes page

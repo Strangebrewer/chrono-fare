@@ -57,9 +57,6 @@ const Foods = props => {
                ) : (
                   <>
                      {props.foods.map((food, index) => {
-                        const difference = dateFns.differenceInCalendarDays(new Date(), parseInt(food.date));
-                        const age = difference === 0 ? `new` : `${difference} days old`;
-                        food.age = age;
                         let show = false;
                         if (showing === food._id) show = showing;
                         return (

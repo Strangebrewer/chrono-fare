@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import dateFns from 'date-fns';
 import Modal from './ModalLogic';
 import EditFood from './Forms/EditFood';
 import { deleteFoodAction, editFoodAction } from '../redux/actions/food_actions';
@@ -43,7 +44,9 @@ const FoodItem = props => {
       props.toggleButtons();
    }
 
-   const { _id, age, description, name } = props.food;
+   const { _id, date, description, name } = props.food;
+   const difference = dateFns.differenceInCalendarDays(new Date(), parseInt(date));
+   const age = difference === 0 ? `new` : `${difference} ${difference === 1 ? 'day' : 'days'} old`;
 
    return (
       <Modal>
@@ -60,7 +63,6 @@ const FoodItem = props => {
             </Container>
          )}
       </Modal>
-
    )
 };
 

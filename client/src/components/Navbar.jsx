@@ -10,6 +10,7 @@ const Navbar = props => {
       if (props.authenticated) {
          return [
             <Link key="foods" to="/foods"><button><i className="fas fa-turkey" /></button></Link>,
+            <Link key="door" to={`/door/${props.user.username}`}><button><i className="fas fa-door-closed" /></button></Link>,
             <SignOut key="signout" />
          ];
       }
@@ -29,7 +30,10 @@ const Navbar = props => {
 }
 
 function mapStateToProps(state) {
-   return { authenticated: state.auth.authenticated }
+   return {
+      authenticated: state.auth.authenticated,
+      user: state.user
+   }
 }
 
 export default connect(mapStateToProps)(Navbar);

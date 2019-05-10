@@ -7,7 +7,7 @@ import requireNotAuth from './components/NotAuthentication';
 import Landing from './pages/Landing'
 import SignIn from './pages/SignIn';
 import Foods from './pages/Foods';
-import Design from './pages/Design';
+import FridgeDoor from './pages/FridgeDoor';
 import { buildHeaders } from './utils/utils';
 import addProps from './utils/AddPropsToRoute'
 import { getCurrentUser } from './redux/actions/user_actions';
@@ -53,6 +53,8 @@ class App extends PureComponent {
                {/* <Route path="/signup" component={requireNotAuth(Signup)} /> */}
 
                <Route path="/foods" component={requireAuth(Foods)} />
+
+               <Route path="/door" component={requireAuth(FridgeDoor)} />
 
             </Switch>
          </Router>
