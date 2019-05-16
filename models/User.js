@@ -11,8 +11,8 @@ class User {
       const user = await this.UserModel.findById(user_id)
          .populate(populate);
 
-      const { _id, email, foods, friends, username } = user;
-      const user_data = { _id, email, foods, friends, username };
+      const { _id, email, foods, friends, requests_sent, requests_received, username } = user;
+      const user_data = { _id, email, foods, friends, requests_sent, requests_received, username };
 
       return user_data
    }
@@ -103,7 +103,7 @@ class User {
    }
 
    async login(req_body) {
-      try {
+      // try {
          const { username, password } = req_body;
          const res = await this.UserModel.findOne({ username })
          const passwordValid = this.checkPassword(password, res.password);
@@ -114,12 +114,12 @@ class User {
                username,
             });
             const user = { _id, username }
-            return { msg: "logged in", token, user };
+            return { token, user };
          }
-      } catch (e) {
-         console.log("Here's the E: ", e);
-         return { error: e.message }
-      }
+      // } catch (e) {
+      //    console.log("Here's the E: ", e);
+      //    return { error: e.message }
+      // }
 
    }
 
@@ -149,25 +149,41 @@ class User {
    }
 
    async addFoodToUser(user_id, food_id) {
-      try {
-         await this.UserModel.findByIdAndUpdate(user_id, {
-            $push: { foods: food_id }
-         });
-         return 'success!';
-      } catch (e) {
-         console.log("Error in User model, addFoodToUser: ", e);
-      }
+      const user = await this.UserModel.findByIdAndUpdate(
+         user_id,
+         { $push: { foods: food_id } },
+         { new: true }
+      );
+      return user;
    }
 
    async removeFoodFromUser(user_id, food_id) {
-      try {
-         await this.UserModel.findByIdAndUpdate(user_id, {
-            $pull: { foods: food_id }
-         });
-         return 'success!';
-      } catch (e) {
-         console.log("Error in User model, deleteFood: ", e);
-      }
+      const user = await this.UserModel.findByIdAndUpdate(
+         user_id,
+         { $pull: { foods: food_id } },
+         { new: true }
+      );
+      return user;
+   }
+
+   async requestFriend(friend_id, user_id) {
+      const friend = await this.UserModel.findById(friend_id);
+      // log 'friend' to make sure the below conditionals will work
+      const { blocked, friends, requests } = friend;
+
+      // maybe in the future you can do something with these besides just return
+      // like notify the user they've already sent it, have been blocked, etc.
+      if (friends.includes(user_id)) return;
+      if (requests.includes(user_id)) return;
+      if (blocked.includes(user_id)) return;
+
+      const request = await this.UserModel.findByIdAndUpdate(
+         friend_id,
+         { $push: { requests_received: user_id } },
+         { new: true }
+      );
+
+      return request;
    }
 
 }

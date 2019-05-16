@@ -15,3 +15,4 @@ Add a text editor for adding recipes:
    - Recipe name
    - the recipe itself can be formatted by the user (see dragon writer editors)
    - Your door can have a link to your recipes page
+

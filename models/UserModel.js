@@ -16,6 +16,18 @@ const userSchema = new Schema({
    friends: [{
       type: Schema.Types.ObjectId,
       ref: 'User'
+   }],
+   requests_sent: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+   }],
+   requests_received: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+   }],
+   blocked: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
    }]
 },
    { timestamps: true }

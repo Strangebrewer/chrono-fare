@@ -14,7 +14,7 @@ const SignIn = props => {
    const errorMessage = () => {
       if (props.errorMessage) {
          return (
-            <span className="info-red">
+            <span>
                {props.errorMessage}
             </span>
          )
