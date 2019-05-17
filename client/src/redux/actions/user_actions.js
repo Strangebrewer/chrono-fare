@@ -5,20 +5,16 @@ import * as Utils from '../action_types/utils_types';
 
 export function getCurrentUser(headers) {
    return async dispatch => {
-      try {
-         const user = await API.getCurrentUser(headers);
-         console.log("USer from getCurrentUser: ", user);
-         // a timeout to make the preety loading icon stay longer so it doesn't look glitchy
-         // Placing the timeout here instead of in the component avoids a stutter caused by re-render
-         setTimeout(() => {
-            dispatch({ type: User.AUTHENTICATED });
-            dispatch({ type: User.SET_CURRENT_USER, payload: user.data });
-            dispatch({ type: Food.SET_FOODS, payload: user.data.foods });
-            dispatch({ type: Utils.TOGGLE_LOADING });
-         }, 1500)
-      } catch (e) {
-
-      }
+      const user = await API.getCurrentUser(headers);
+      console.log("USer from getCurrentUser: ", user);
+      // a timeout to make the preety loading icon stay longer so it doesn't look glitchy
+      // Placing the timeout here instead of in the component avoids a stutter caused by re-render
+      setTimeout(() => {
+         dispatch({ type: User.AUTHENTICATED });
+         dispatch({ type: User.SET_CURRENT_USER, payload: user.data });
+         dispatch({ type: Food.SET_FOODS, payload: user.data.foods });
+         dispatch({ type: Utils.TOGGLE_LOADING });
+      }, 1500);
    }
 }
 
@@ -26,10 +22,11 @@ export function loginAction(credentials, history) {
    return async dispatch => {
       try {
          const user = await API.login(credentials);
+         console.log('user in loginAction:::', user);
          if (user.data.error) {
             dispatch({
                type: User.AUTHENTICATION_ERROR,
-               payload: 'invalid email or password'
+               payload: user.data.error
             });
          } else {
             dispatch({ type: User.AUTHENTICATED });
@@ -39,12 +36,13 @@ export function loginAction(credentials, history) {
             dispatch({ type: Utils.TOGGLE_LOADING });
             history.push('/foods');
          }
-      } catch (e) {
+      } catch ({ message }) {
          dispatch({
-            type: User.AUTHENTICATION_ERROR,
-            payload: 'invalid email or password'
+            type: Utils.HANDLE_ERROR,
+            payload: 'Something went wrong - please try again later.'
          })
       }
+
    }
 }
 
@@ -66,5 +64,24 @@ export function signoutAction() {
    localStorage.removeItem('token');
    return {
       type: User.UNAUTHENTICATED
+   }
+}
+
+export function searchUsersAction(search_criteria) {
+   return async dispatch => {
+      try {
+         dispatch({ type: Utils.TOGGLE_LOADING });
+         const matches = await API.searchUsers(search_criteria);
+         dispatch({
+            type: User.SET_SEARCH_RESULTS,
+            payload: matches.data
+         });
+         dispatch({ type: Utils.TOGGLE_LOADING });
+      } catch ({ message }) {
+         dispatch({
+            type: Utils.HANDLE_ERROR,
+            payload: 'Something went wrong - please try again later.'
+         })
+      }
    }
 }

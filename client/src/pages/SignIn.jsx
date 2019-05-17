@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { loginAction } from '../redux/actions/user_actions';
 
 const SignIn = props => {
+   
+   console.log("Signin props: ", props)
 
    const submit = values => {
       props.loginAction(values, props.history);
@@ -21,7 +23,6 @@ const SignIn = props => {
       }
    }
 
-   console.log("Signin props: ", props)
    const { handleSubmit } = props;
    return (
       <Container>
@@ -47,7 +48,10 @@ const SignIn = props => {
 }
 
 function mapStateToProps(state) {
-   return { errorMessage: state.auth.error }
+   return {
+      will_robinson: state.will_robinson,
+      errorMessage: state.auth.error
+   }
 }
 
 const reduxFormSignIn = reduxForm({ form: 'signin' })(SignIn);

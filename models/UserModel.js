@@ -13,6 +13,10 @@ const userSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Food'
    }],
+   shared_with_me: [{
+      type: Schema.Types.ObjectId,
+      ref: "Food"
+   }],
    friends: [{
       type: Schema.Types.ObjectId,
       ref: 'User'

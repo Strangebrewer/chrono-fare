@@ -22,3 +22,11 @@ export function authReducer(state = {}, action) {
       default: return state;
    }
 }
+
+export function userSearchReducer(state = [], action) {
+   switch(action.type) {
+      case User.SET_SEARCH_RESULTS:
+         return action.payload;
+      default: return state;
+   }
+}

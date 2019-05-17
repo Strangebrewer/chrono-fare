@@ -5,7 +5,11 @@ const foodSchema = new Schema({
    name: { type: String, required: true },
    description: String,
    date: { type: String, required: true },
-   user_id: { type: Schema.Types.ObjectId }
+   owner_id: { type: Schema.Types.ObjectId },
+   shared_with: [{
+      type: Schema.Types.ObjectId,
+      ref: "User"
+   }]
 },
    { timestamps: true }
 );

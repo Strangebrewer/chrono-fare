@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import { loadingReducer } from './utils_reducer';
-import { userReducer, authReducer } from './user_reducer';
+import { errorReducer, loadingReducer } from './utils_reducer';
+import { userReducer, userSearchReducer, authReducer } from './user_reducer';
 import { foodReducer } from './food_reducer';
 import { reducer as formReducer } from 'redux-form';
 
@@ -9,7 +9,9 @@ const appReducer = combineReducers({
    form: formReducer,
    auth: authReducer,
    loading: loadingReducer,
-   foods: foodReducer
+   foods: foodReducer,
+   will_robinson: errorReducer,
+   user_search: userSearchReducer
 });
 
 const rootReducer = (state, action) => {

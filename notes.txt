@@ -1,6 +1,11 @@
 
 
-Add component to search users by username or name.
+Add component to search users by username or name (search is done and working).
+   - fix search. A couple of options:
+      - exclude: '@', the domain (i.e. 'gmail'), and '.com', '.net', etc.
+      - save the email address in two fields: email_name and email
+         - these could be populated by splitting the given email - email.split('@') will remove the '@' and produce an array with the two resulting items,
+         - save the full email address in the email field, and just the first array item [0] from the email.split('@') result.
    - Clicking the name in the search results should take you to their door
    - Doors should have a button for sending a friend request
    

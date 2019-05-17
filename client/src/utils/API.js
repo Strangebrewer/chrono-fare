@@ -1,11 +1,17 @@
 import axios from 'axios';
 
 export function getCurrentUser(headers) {
-   return axios.get('/user', { ...headers });
+   return axios.get('/users', { ...headers });
 }
 
 export function login(credentials) {
-   return axios.post('/user/login', credentials);
+   // throw new Error("Fuck yeah, man!");
+   return axios.post('/users/login', credentials);
+}
+
+export function searchUsers(args) {
+   const { search_term, page, limit } = args;
+   return axios.get(`/users/search?search_term=${search_term}&page=${page}&limit=${limit}`);
 }
 
 export function signup(data) {

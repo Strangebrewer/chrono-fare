@@ -7,3 +7,11 @@ export function loadingReducer(state = {}, action) {
       default: return state;
    }
 }
+
+export function errorReducer(state = '', action) {
+   switch (action.type) {
+      case Utils.HANDLE_ERROR:
+         return action.payload;
+      default: return state;
+   }
+}

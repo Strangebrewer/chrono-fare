@@ -8,13 +8,13 @@ class User {
    }
 
    async getCurrentUser(user_id, populate = '') {
-      const user = await this.UserModel.findById(user_id)
+      const response = await this.UserModel.findById(user_id)
          .populate(populate);
 
-      const { _id, email, foods, friends, requests_sent, requests_received, username } = user;
-      const user_data = { _id, email, foods, friends, requests_sent, requests_received, username };
+      const { _id, email, foods, friends, requests_sent, requests_received, username } = response;
+      const user = { _id, email, foods, friends, requests_sent, requests_received, username };
 
-      return user_data
+      return user
    }
 
    async validateInputs(username, email) {
@@ -76,14 +76,14 @@ class User {
 
       const password = this.hashPassword(req_body.password);
       req_body.password = password;
-      const user = await this.UserModel.create(req_body);
-      const { _id } = user;
+      const response = await this.UserModel.create(req_body);
+      const { _id } = response;
       const token = this.sign({
          id: _id,
          username,
       });
-      const userData = { _id, username }
-      return { msg: "logged in", token, user: userData };
+      const user = { _id, username }
+      return { msg: "logged in", token, user };
    }
 
    async updateUser(req_body, req_user) {
@@ -92,8 +92,8 @@ class User {
       if (!inputs.valid) return inputs;
       const avail = await this.checkUserAvailable(username, email);
       if (!avail.valid) return avail;
-      const res = await this.UserModel.findOneAndUpdate({ _id: req_user._id }, req_body);
-      const { _id } = res;
+      const response = await this.UserModel.findOneAndUpdate({ _id: req_user._id }, req_body);
+      const { _id } = response;
       const token = this.sign({
          id: _id,
          username,
@@ -103,24 +103,23 @@ class User {
    }
 
    async login(req_body) {
-      // try {
-         const { username, password } = req_body;
-         const res = await this.UserModel.findOne({ username })
-         const passwordValid = this.checkPassword(password, res.password);
-         if (passwordValid) {
-            const { _id } = res;
-            const token = this.sign({
-               id: _id,
-               username,
-            });
-            const user = { _id, username }
-            return { token, user };
-         }
-      // } catch (e) {
-      //    console.log("Here's the E: ", e);
-      //    return { error: e.message }
-      // }
+      const { username, password } = req_body;
 
+      const response = await this.UserModel.findOne({ username });
+      if (!response) throw new Error('Username is incorrect.');
+
+      const passwordValid = this.checkPassword(password, response.password);
+      if (passwordValid) {
+         const { _id } = response;
+         const token = this.sign({
+            id: _id,
+            username,
+         });
+         const user = { _id, username }
+         return { token, user };
+      } else {
+         throw new Error('Password is incorrect.');
+      }
    }
 
    async updatePassword(req_body, req_user) {
@@ -129,8 +128,8 @@ class User {
       const passwordValid = this.checkPassword(currentPassword, password);
       if (passwordValid) {
          const pw = hashPassword(newPassword);
-         const res = await this.UserModel.findOneAndUpdate({ _id }, { password: pw });
-         const { username } = res;
+         const response = await this.UserModel.findOneAndUpdate({ _id }, { password: pw });
+         const { username } = response;
          const token = this.sign({
             id: _id,
             username,
@@ -186,6 +185,21 @@ class User {
       return request;
    }
 
+   async searchUsers(args) {
+      const { search_term, page = 1, limit = 10 } = args;
+      const skip = (page - 1) * limit;
+      const matches = await this.UserModel.find({
+         $or: [
+            { username: { "$regex": search_term, "$options": "i" } },
+            { name: { "$regex": search_term, "$options": "i" } },
+            { email: { "$regex": search_term, "$options": "i" } },
+         ]
+      }, null, {
+            skip: parseInt(skip),
+            limit: parseInt(limit)
+         });
+      return matches;
+   }
 }
 
 module.exports = User;
