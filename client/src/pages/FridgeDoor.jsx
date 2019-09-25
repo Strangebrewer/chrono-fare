@@ -6,8 +6,6 @@ import { searchUsersAction } from '../redux/actions/user_actions';
 
 const FridgeDoor = props => {
 
-    const wot = "***REMOVED***!"
-
     console.log('FridgeDoor props:::', props);
 
     const userSearch = () => {

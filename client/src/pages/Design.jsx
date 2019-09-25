@@ -20,8 +20,6 @@ class Design extends Component {
 
     render() {
 
-        const wot = "***REMOVED***!"
-
         return (
             <>
                 <Navbar />
