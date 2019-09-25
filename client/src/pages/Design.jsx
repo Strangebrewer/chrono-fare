@@ -3,51 +3,54 @@ import styled from 'styled-components';
 import Navbar from '../components/Navbar';
 
 class Design extends Component {
-   state = {
-      squares: []
-   }
+    state = {
+        squares: []
+    }
 
-   renderSquares = (row_num) => {
-      const squares = [];
-      for (let i = 0; i < 12; i++) {
-         let color;
-         if ((row_num + i) % 2 === 0) color = '#26a3ec'
-         else color = '#0baa82';
-         squares.push(<Square key={(i + 1) * row_num} row={`${row_num}`} column={`${i + 1}`} bg={`${color}`} rotate={`-${row_num * i}deg`} radius="5px" />)
-      }
-      return squares;
-   }
+    renderSquares = (row_num) => {
+        const squares = [];
+        for (let i = 0; i < 12; i++) {
+            let color;
+            if ((row_num + i) % 2 === 0) color = '#26a3ec'
+            else color = '#0baa82';
+            squares.push(<Square key={(i + 1) * row_num} row={`${row_num}`} column={`${i + 1}`} bg={`${color}`} rotate={`-${row_num * i}deg`} radius="5px" />)
+        }
+        return squares;
+    }
 
-   render() {
-      return (
-         <>
-            <Navbar />
-            <Content>
-               {this.renderSquares(1)}
-               {this.renderSquares(2)}
-               {this.renderSquares(3)}
-               {this.renderSquares(4)}
-               {this.renderSquares(5)}
-               {this.renderSquares(6)}
-               {this.renderSquares(7)}
-               {this.renderSquares(8)}
-               {this.renderSquares(9)}
-               {this.renderSquares(10)}
-               {this.renderSquares(11)}
-               {this.renderSquares(12)}
-               <Square row="1/5" column="1/5" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="1/4" column="5/8" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="1/3" column="8/10" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="6/12" column="1/7" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="4/8" column="6/10" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="2/4" column="10/12" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="9/13" column="7/11" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="7/10" column="10/13" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-               <Square row="4/6" column="11/13" bg="blue" style={{ boxShadow: '20px 20px 20px #000'}} radius="50%" nabro/>
-            </Content>
-         </>
-      );
-   }
+    render() {
+
+        const wot = "***REMOVED***!"
+
+        return (
+            <>
+                <Navbar />
+                <Content>
+                    {this.renderSquares(1)}
+                    {this.renderSquares(2)}
+                    {this.renderSquares(3)}
+                    {this.renderSquares(4)}
+                    {this.renderSquares(5)}
+                    {this.renderSquares(6)}
+                    {this.renderSquares(7)}
+                    {this.renderSquares(8)}
+                    {this.renderSquares(9)}
+                    {this.renderSquares(10)}
+                    {this.renderSquares(11)}
+                    {this.renderSquares(12)}
+                    <Square row="1/5" column="1/5" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="1/4" column="5/8" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="1/3" column="8/10" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="6/12" column="1/7" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="4/8" column="6/10" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="2/4" column="10/12" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="9/13" column="7/11" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="7/10" column="10/13" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                    <Square row="4/6" column="11/13" bg="blue" style={{ boxShadow: '20px 20px 20px #000' }} radius="50%" nabro />
+                </Content>
+            </>
+        );
+    }
 }
 
 export default Design;
